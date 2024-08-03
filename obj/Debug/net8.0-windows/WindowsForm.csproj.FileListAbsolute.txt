@@ -12,3 +12,4 @@ c:\Users\stefa\Progetti\WindowsForm\obj\Debug\net8.0-windows\refint\WindowsForm.
 c:\Users\stefa\Progetti\WindowsForm\obj\Debug\net8.0-windows\WindowsForm.pdb
 c:\Users\stefa\Progetti\WindowsForm\obj\Debug\net8.0-windows\WindowsForm.genruntimeconfig.cache
 c:\Users\stefa\Progetti\WindowsForm\obj\Debug\net8.0-windows\ref\WindowsForm.dll
+c:\Users\stefa\Progetti\WindowsForm\obj\Debug\net8.0-windows\WindowsForm.sourcelink.json
