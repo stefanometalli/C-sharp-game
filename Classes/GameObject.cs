@@ -5,13 +5,11 @@ class GameObject
     private Graphics graphics;
     private Point position;
 
-    public GameObject(Graphics graphics, Point position)
+    public GameObject(Graphics graphics, Image sprite, Point position)
     {
-        this.sprite = Image.FromFile(@"Sprites/player.png");
+        this.sprite = sprite;
         this.graphics = graphics;
         this.position = position;
-        this.position.X = this.position.X - sprite.Width / 2;
-        this.position.Y = this.position.Y - sprite.Height;
     }
 
     public Point Position { get { return this.position; } set { this.position = value; } }
@@ -22,6 +20,22 @@ class GameObject
 
     public void update()
     {
+        if (Keyboard.IsKeyDown(Keys.D))
+        {
+            position.X += 1;
+        }
+        if (Keyboard.IsKeyDown(Keys.A))
+        {
+            position.X -= 1;
+        }
+        if (Keyboard.IsKeyDown(Keys.W))
+        {
+            position.Y -= 1;
+        }
+        if (Keyboard.IsKeyDown(Keys.S))
+        {
+            position.Y += 1;
+        }
         graphics.DrawImage(sprite, this.position.X, this.position.Y);
     }
 }
