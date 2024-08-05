@@ -16,7 +16,7 @@ class Player : GameObject, IMoveable
         set => throw new NotImplementedException();
     }
 
-    public Player(int health)
+    public Player(Graphics graphics, Point point, int health) : base(graphics, point)
     {
         this.health = health;
     }
@@ -31,11 +31,11 @@ class Player : GameObject, IMoveable
         return health > 0;
     }
 
-    public override void update()
+    /*public override void update()
     {
         throw new NotImplementedException();
     }
-
+    */
     public void Move()
     {
         throw new NotImplementedException();
