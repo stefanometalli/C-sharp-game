@@ -1,41 +1,68 @@
+using WindowsForm.Classes;
+
 class GameObject
 {
 
     private Image sprite;
     private Graphics graphics;
-    private Point position;
+    private Transform transform;
+    private bool mainCharacter;
+    private Dictionary<string, Component> components = new Dictionary<string, Component>();
 
     public GameObject(Graphics graphics, Image sprite, Point position)
     {
         this.sprite = sprite;
         this.graphics = graphics;
-        this.position = position;
+        this.transform = new Transform();
+        transform.Position = new System.Numerics.Vector2(position.X, position.Y);
     }
 
-    public Point Position { get { return this.position; } set { this.position = value; } }
+    public GameObject(Graphics graphics, Image sprite, Point position, bool mainCharacter)
+    {
+        this.sprite = sprite;
+        this.graphics = graphics;
+        this.transform = new Transform();
+        transform.Position = new System.Numerics.Vector2(position.X, position.Y);
+        this.mainCharacter = mainCharacter;
+    }
 
     public Image Sprite { get { return this.sprite; } }
+
+    public void AddComponent(Component component)
+    {
+        components.Add(component.ToString(), component);
+    }
 
     public void start() { }
 
     public void update()
     {
-        if (Keyboard.IsKeyDown(Keys.D))
+        foreach (var component in components.Values)
         {
-            position.X += 1;
+            component.Update();
         }
-        if (Keyboard.IsKeyDown(Keys.A))
+        /**
+        if ((this.mainCharacter))
         {
-            position.X -= 1;
+            if (Keyboard.IsKeyDown(Keys.D))
+            {
+                transform.Position.X += 1;
+            }
+            if (Keyboard.IsKeyDown(Keys.A))
+            {
+                position.X -= 1;
+            }
+            if (Keyboard.IsKeyDown(Keys.W))
+            {
+                position.Y -= 1;
+            }
+            if (Keyboard.IsKeyDown(Keys.S))
+            {
+                position.Y += 1;
+            }
         }
-        if (Keyboard.IsKeyDown(Keys.W))
-        {
-            position.Y -= 1;
-        }
-        if (Keyboard.IsKeyDown(Keys.S))
-        {
-            position.Y += 1;
-        }
-        graphics.DrawImage(sprite, this.position.X, this.position.Y);
+        */
+        graphics.DrawImage(sprite, transform.Position.X, transform.Position.Y);
+        
     }
 }
