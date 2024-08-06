@@ -3,44 +3,33 @@ using WindowsForm.Classes;
 class GameObject
 {
 
-    private Image sprite;
-    private Graphics graphics;
     private Transform transform;
     private bool mainCharacter;
     private Dictionary<string, Component> components = new Dictionary<string, Component>();
 
-    public GameObject(Graphics graphics, Image sprite, Point position)
+    public GameObject()
     {
-        this.sprite = sprite;
-        this.graphics = graphics;
         this.transform = new Transform();
-        transform.Position = new System.Numerics.Vector2(position.X, position.Y);
     }
 
-    public GameObject(Graphics graphics, Image sprite, Point position, bool mainCharacter)
+    public GameObject(bool mainCharacter)
     {
-        this.sprite = sprite;
-        this.graphics = graphics;
         this.transform = new Transform();
-        transform.Position = new System.Numerics.Vector2(position.X, position.Y);
         this.mainCharacter = mainCharacter;
     }
 
-    public Image Sprite { get { return this.sprite; } }
+    public Transform Transform { get { return this.transform; } private set { } }
 
     public void AddComponent(Component component)
     {
         components.Add(component.ToString(), component);
+        component.GameObject = this;
     }
 
     public void start() { }
 
     public void update()
     {
-        foreach (var component in components.Values)
-        {
-            component.Update();
-        }
         /**
         if ((this.mainCharacter))
         {
@@ -62,7 +51,9 @@ class GameObject
             }
         }
         */
-        graphics.DrawImage(sprite, transform.Position.X, transform.Position.Y);
-        
+        foreach (var component in components.Values)
+        {
+            component.Update();
+        }
     }
 }

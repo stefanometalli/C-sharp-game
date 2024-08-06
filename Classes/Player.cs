@@ -16,7 +16,7 @@ class Player : GameObject, IMoveable
         set => throw new NotImplementedException();
     }
 
-    public Player(Graphics graphics, Image sprite, Point point, int health) : base(graphics, sprite, point)
+    public Player(Graphics graphics, Image sprite, Point point, int health)
     {
         this.health = health;
     }

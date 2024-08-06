@@ -10,17 +10,17 @@ namespace WindowsForm.Classes
     {
         public GameObject GameObject { get; set; }
 
-        public void Awake()
+        public virtual void Awake()
         {
 
         }
 
-        public void Start()
+        public virtual void Start()
         {
 
         }
 
-        public void Update()
+        public virtual void Update()
         {
 
         }

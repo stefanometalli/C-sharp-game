@@ -1,4 +1,6 @@
-﻿class GameWorld
+﻿using WindowsForm.Classes;
+
+class GameWorld
 {
 
     private Graphics dc;
@@ -17,8 +19,13 @@
         this.backgroundColor = ColorTranslator.FromHtml("#000c41");
 
         Image sprite = Image.FromFile(@"Sprites/player.png");
-        gameObject = new GameObject(dc, sprite, new Point(WorldSize.Width/2 - sprite.Width/2, WorldSize.Height - sprite.Height), true);
-        secondGameObject = new GameObject(dc, sprite, new Point(0, 0));
+        gameObject = new GameObject(true);
+        secondGameObject = new GameObject();
+
+        SpriteRenderer sr = new SpriteRenderer(dc);
+        sr.SetSprite("player");
+
+        gameObject.AddComponent(sr);
     }
 
     public void update()
