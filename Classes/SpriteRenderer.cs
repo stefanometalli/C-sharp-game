@@ -15,9 +15,11 @@ namespace WindowsForm.Classes
         { 
             get 
             {
-                return new RectangleF(GameObject.Transform.Position.X, GameObject.Transform.Position.Y, sprite.Width, sprite.Height);
+                return new RectangleF(GameObject.Transform.Position.X, GameObject.Transform.Position.Y, sprite.Width * ScaleFactor, sprite.Height * ScaleFactor);
             } 
         }
+
+        public float ScaleFactor { get; set; } = 1f;
 
         public SpriteRenderer()
         {

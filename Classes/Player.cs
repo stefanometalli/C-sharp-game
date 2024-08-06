@@ -13,9 +13,10 @@ class Player : Component
 
     public override void Awake()
     {
-        speed = 8;
+        speed = 200;
         spriteRenderer = (SpriteRenderer)GameObject.GetComponent("SpriteRenderer");
         spriteRenderer.SetSprite("player");
+        spriteRenderer.ScaleFactor = 0.7f;
         GameObject.Transform.Position = new Vector2(GameWorld.WorldSize.Width / 2 - spriteRenderer.Rectangle.Width / 2, GameWorld.WorldSize.Height - spriteRenderer.Rectangle.Height);
     }
 
@@ -51,7 +52,7 @@ class Player : Component
 
     private void Move()
     {
-        GameObject.Transform.Translate(velocity * speed);
+        GameObject.Transform.Translate(velocity * speed * MyTime.DeltaTime);
     }
 
     public override string ToString()
