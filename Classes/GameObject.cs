@@ -4,18 +4,11 @@ class GameObject
 {
 
     private Transform transform;
-    private bool mainCharacter;
     private Dictionary<string, Component> components = new Dictionary<string, Component>();
 
     public GameObject()
     {
         this.transform = new Transform();
-    }
-
-    public GameObject(bool mainCharacter)
-    {
-        this.transform = new Transform();
-        this.mainCharacter = mainCharacter;
     }
 
     public Transform Transform { get { return this.transform; } private set { } }
@@ -26,13 +19,38 @@ class GameObject
         component.GameObject = this;
     }
 
-    public void start() { }
+    public Component GetComponent(string componentName)
+    {
+        return components[componentName];
+    }
+
+    public bool HasComponent(string componentName) 
+    { 
+        return components.ContainsKey(componentName);
+    }
+
+    public void Awake()
+    {
+        foreach (var component in components.Values)
+        {
+            component.Awake();
+        }
+    }
+
+    public void Start() 
+    {
+        foreach (var component in components.Values)
+        {
+            if (component.IsEnabled)
+            {
+                component.Start();
+            }
+        }
+    }
 
     public void update()
     {
         /**
-        if ((this.mainCharacter))
-        {
             if (Keyboard.IsKeyDown(Keys.D))
             {
                 transform.Position.X += 1;
@@ -49,11 +67,13 @@ class GameObject
             {
                 position.Y += 1;
             }
-        }
         */
         foreach (var component in components.Values)
         {
-            component.Update();
+            if (component.IsEnabled)
+            {
+                component.Update();
+            }
         }
     }
 }

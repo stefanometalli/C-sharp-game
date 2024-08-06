@@ -19,9 +19,9 @@ namespace WindowsForm.Classes
             } 
         }
 
-        public SpriteRenderer(Graphics graphics)
+        public SpriteRenderer()
         {
-            this.graphics = graphics;
+            graphics = GameWorld.Graphics;
         }
 
         public void SetSprite(string spriteName)
@@ -35,7 +35,7 @@ namespace WindowsForm.Classes
         }
         public override string ToString() 
         { 
-            return "sprite renderer"; 
+            return "SpriteRenderer"; 
         }
 
     }

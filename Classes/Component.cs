@@ -6,9 +6,11 @@ using System.Threading.Tasks;
 
 namespace WindowsForm.Classes
 {
-    internal class Component
+    abstract class Component
     {
         public GameObject GameObject { get; set; }
+
+        public bool IsEnabled { get; set; } = true;
 
         public virtual void Awake()
         {
