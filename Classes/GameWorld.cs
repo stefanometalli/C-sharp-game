@@ -1,33 +1,54 @@
-﻿class GameWorld
+﻿using WindowsForm.Classes;
+
+class GameWorld
 {
 
-    private Graphics dc;
     private Color backgroundColor;
-    private Size worldSize;
+    public static Size WorldSize { get; private set; }
     private GameObject gameObject;
-    private GameObject secondGameObject;
     private BufferedGraphics bufferedGraphics;
+
+    public static Graphics Graphics { get; private set; }
 
 
     public GameWorld(Rectangle displayRectangle, Graphics graphics)
     {
-        this.worldSize = displayRectangle.Size;
-        this.bufferedGraphics = BufferedGraphicsManager.Current.Allocate(graphics, displayRectangle);
-        this.dc = bufferedGraphics.Graphics;
-        this.backgroundColor = ColorTranslator.FromHtml("#000c41");
+        WorldSize = displayRectangle.Size;
+        bufferedGraphics = BufferedGraphicsManager.Current.Allocate(graphics, displayRectangle);
+        Graphics = bufferedGraphics.Graphics;
+        backgroundColor = ColorTranslator.FromHtml("#000c41");
+        Initialize();
 
-        Image sprite = Image.FromFile(@"Sprites/player.png");
-        gameObject = new GameObject(dc, sprite, new Point(this.worldSize.Width/2 - sprite.Width/2, this.worldSize.Height - sprite.Height));
-        secondGameObject = new GameObject(dc, sprite, new Point(0, 0));
     }
 
     public void update()
     {
-        dc.Clear(this.backgroundColor);
+        Graphics.Clear(backgroundColor);
         gameObject.update();
-        secondGameObject.update();
-
         bufferedGraphics.Render();
+    }
+
+    private void Initialize()
+    {
+        gameObject = new GameObject();
+        Player player = new Player();
+        SpriteRenderer sr = new SpriteRenderer();
+        gameObject.AddComponent(player);
+        gameObject.AddComponent(sr);
+
+        Awake();
+        Start();
+    }
+
+    private void Awake()
+    {
+        gameObject.Awake();
+
+    }
+
+    private void Start()
+    {
+
     }
 
 }

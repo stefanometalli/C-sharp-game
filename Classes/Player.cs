@@ -1,48 +1,61 @@
-class Player : GameObject, IMoveable
+using WindowsForm.Classes;
+using System.Numerics;
+
+class Player : Component
 {
     private int health;
     public int strength;
     protected int mana;
 
-    public int Health
+    private Vector2 velocity;
+    private float speed;
+    private SpriteRenderer spriteRenderer;
+
+    public override void Awake()
     {
-        get { return health; }
-        set { health = value; }
+        speed = 8;
+        spriteRenderer = (SpriteRenderer)GameObject.GetComponent("SpriteRenderer");
+        spriteRenderer.SetSprite("player");
+        GameObject.Transform.Position = new Vector2(GameWorld.WorldSize.Width / 2 - spriteRenderer.Rectangle.Width / 2, GameWorld.WorldSize.Height - spriteRenderer.Rectangle.Height);
     }
 
-    public float Speed
+    public override void Update()
     {
-        get => throw new NotImplementedException();
-        set => throw new NotImplementedException();
+        GetInput();
+        Move();
     }
 
-    public Player(Graphics graphics, Image sprite, Point point, int health) : base(graphics, sprite, point)
+    private void GetInput()
     {
-        this.health = health;
+        velocity = Vector2.Zero;
+
+        if (Keyboard.IsKeyDown(Keys.W))
+        {
+            velocity += new Vector2(0, -1);
+        }
+        if (Keyboard.IsKeyDown(Keys.A))
+        {
+           velocity += new Vector2(-1, 0);
+        }
+        if (Keyboard.IsKeyDown(Keys.S))
+        {
+            velocity += new Vector2(0, 1);
+        }
+        if (Keyboard.IsKeyDown(Keys.D))
+        {
+            velocity += new Vector2(1, 0);
+        }
+
+        velocity = Vector2.Normalize(velocity);
     }
 
-    public void takeDamage(int damage)
+    private void Move()
     {
-        health -= damage;
+        GameObject.Transform.Translate(velocity * speed);
     }
 
-    private bool isAlive()
+    public override string ToString()
     {
-        return health > 0;
-    }
-
-    /*public override void update()
-    {
-        throw new NotImplementedException();
-    }
-    */
-    public void Move()
-    {
-        throw new NotImplementedException();
-    }
-
-    public void Sprint(float extraSpeed)
-    {
-        throw new NotImplementedException();
+        return "Player";
     }
 }
