@@ -39,17 +39,17 @@ class GameWorld
 
     private void Awake()
     {
-        foreach (var gameObject in gameObjects)
+        for (int i = 0; i < gameObjects.Count; i++)
         {
-            gameObject.Awake();
+            gameObjects[i].Awake();
         }
     }
 
     private void Start()
     {
-        foreach (var gameObject in gameObjects)
+        for (int i = 0; i < gameObjects.Count; i++)
         {
-            gameObject.Start();
+            gameObjects[i].Start();
         }
     }
 
