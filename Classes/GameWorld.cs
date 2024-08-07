@@ -5,7 +5,7 @@ class GameWorld
 
     private Color backgroundColor;
     public static Size WorldSize { get; private set; }
-    private GameObject gameObject;
+    private static List<GameObject> gameObjects = new List<GameObject>();
     private BufferedGraphics bufferedGraphics;
 
     public static Graphics Graphics { get; private set; }
@@ -21,20 +21,17 @@ class GameWorld
 
     }
 
-    public void update()
-    {
-        Graphics.Clear(backgroundColor);
-        gameObject.update();
-        bufferedGraphics.Render();
-    }
-
     private void Initialize()
     {
-        gameObject = new GameObject();
-        Player player = new Player();
-        SpriteRenderer sr = new SpriteRenderer();
-        gameObject.AddComponent(player);
-        gameObject.AddComponent(sr);
+        GameObject player = new GameObject();
+        player.AddComponent(new Player());
+        player.AddComponent(new SpriteRenderer());
+        gameObjects.Add(player);
+
+        GameObject enemy = new GameObject();
+        enemy.AddComponent(new Enemy());
+        enemy.AddComponent(new SpriteRenderer());
+        gameObjects.Add(enemy);
 
         Awake();
         Start();
@@ -42,13 +39,43 @@ class GameWorld
 
     private void Awake()
     {
-        gameObject.Awake();
-
+        foreach (var gameObject in gameObjects)
+        {
+            gameObject.Awake();
+        }
     }
 
     private void Start()
     {
+        foreach (var gameObject in gameObjects)
+        {
+            gameObject.Start();
+        }
+    }
 
+    public void update()
+    {
+        MyTime.CalcDeltaTime();
+        Graphics.Clear(backgroundColor);
+
+        for (int i = 0; i < gameObjects.Count; i++)
+        {
+            gameObjects[i].update();
+        }
+
+        bufferedGraphics.Render();
+    }
+
+    public static void Instatiate(GameObject go)
+    {
+        go.Awake();
+        go.Start();
+        gameObjects.Add(go);
+    }
+
+    public static void Destroy(GameObject go) 
+    {
+        gameObjects.Remove(go);
     }
 
 }

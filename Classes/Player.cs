@@ -11,11 +11,16 @@ class Player : Component
     private float speed;
     private SpriteRenderer spriteRenderer;
 
+    private float shootCooldown = 1;
+    private float timeSinceLastShot;
+    private bool canShoot = true;
+
     public override void Awake()
     {
-        speed = 8;
+        speed = 200;
         spriteRenderer = (SpriteRenderer)GameObject.GetComponent("SpriteRenderer");
         spriteRenderer.SetSprite("player");
+        spriteRenderer.ScaleFactor = 0.7f;
         GameObject.Transform.Position = new Vector2(GameWorld.WorldSize.Width / 2 - spriteRenderer.Rectangle.Width / 2, GameWorld.WorldSize.Height - spriteRenderer.Rectangle.Height);
     }
 
@@ -23,6 +28,7 @@ class Player : Component
     {
         GetInput();
         Move();
+        HandleShootCooldown();
     }
 
     private void GetInput()
@@ -45,13 +51,43 @@ class Player : Component
         {
             velocity += new Vector2(1, 0);
         }
+        if (Keyboard.IsKeyDown(Keys.Space))
+        {
+            Shoot();
+        }
 
         velocity = Vector2.Normalize(velocity);
     }
 
     private void Move()
     {
-        GameObject.Transform.Translate(velocity * speed);
+        GameObject.Transform.Translate(velocity * speed * MyTime.DeltaTime);
+    }
+
+    private void Shoot()
+    {
+        if (canShoot)
+        {
+            canShoot = false;
+            timeSinceLastShot = 0;
+            GameObject laser = new GameObject();
+            Vector2 spawnPosition = new Vector2(GameObject.Transform.Position.X + spriteRenderer.Rectangle.Width / 2 - 3, GameObject.Transform.Position.Y - 18);
+            laser.AddComponent(new Laser("laser", new Vector2(0, -1), spawnPosition));
+            laser.AddComponent(new SpriteRenderer());
+            GameWorld.Instatiate(laser);
+        }
+    }
+
+    private void HandleShootCooldown()
+    {
+        if(!canShoot)
+        {
+            timeSinceLastShot += MyTime.DeltaTime;
+        }
+        if (timeSinceLastShot >= shootCooldown)
+        {
+            canShoot = true;
+        }
     }
 
     public override string ToString()
