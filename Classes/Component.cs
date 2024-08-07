@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace WindowsForm.Classes
 {
-    abstract class Component
+    public abstract class Component
     {
         public GameObject GameObject { get; set; }
 

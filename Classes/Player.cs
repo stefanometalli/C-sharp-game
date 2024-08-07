@@ -17,6 +17,7 @@ class Player : Component
 
     public override void Awake()
     {
+        GameObject.Tag = "Player";
         speed = 200;
         spriteRenderer = (SpriteRenderer)GameObject.GetComponent("SpriteRenderer");
         spriteRenderer.SetSprite("player");
@@ -74,6 +75,7 @@ class Player : Component
             Vector2 spawnPosition = new Vector2(GameObject.Transform.Position.X + spriteRenderer.Rectangle.Width / 2 - 3, GameObject.Transform.Position.Y - 18);
             laser.AddComponent(new Laser("laser", new Vector2(0, -1), spawnPosition));
             laser.AddComponent(new SpriteRenderer());
+            laser.AddComponent(new Collider());
             GameWorld.Instatiate(laser);
         }
     }

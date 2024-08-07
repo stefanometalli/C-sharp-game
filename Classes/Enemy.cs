@@ -12,10 +12,14 @@ namespace WindowsForm.Classes
         private SpriteRenderer spriteRenderer;
         private float speed;
         private static Random random = new Random();
+        private Collider collider;
 
         public override void Awake()
         {
+            GameObject.Tag = "Enemy";
             speed = 100;
+            collider = (Collider)GameObject.GetComponent("Collider");
+            collider.CollisionHandler += Collision;
             spriteRenderer = (SpriteRenderer)GameObject.GetComponent("SpriteRenderer");
             spriteRenderer.SetSprite("enemy_01");
             spriteRenderer.ScaleFactor = 0.7f;
@@ -43,6 +47,15 @@ namespace WindowsForm.Classes
         private void Reset()
         {
             GameObject.Transform.Position = new Vector2(random.Next((int)spriteRenderer.Rectangle.Width, (int)GameWorld.WorldSize.Width -(int)spriteRenderer.Rectangle.Width), -spriteRenderer.Rectangle.Height);
+        }
+
+        private void Collision(Collider other)
+        {
+            if (other.GameObject.Tag == "Laser")
+            {
+                GameWorld.Destroy(other.GameObject);
+                GameWorld.Destroy(GameObject);
+            }
         }
     }
 }

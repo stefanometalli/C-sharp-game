@@ -1,10 +1,12 @@
 using WindowsForm.Classes;
 
-class GameObject
+public class GameObject
 {
 
     private Transform transform;
     private Dictionary<string, Component> components = new Dictionary<string, Component>();
+
+    public string Tag { get; set; }
 
     public GameObject()
     {

@@ -8,6 +8,8 @@ class GameWorld
     private static List<GameObject> gameObjects = new List<GameObject>();
     private BufferedGraphics bufferedGraphics;
 
+    public static bool Debug { get; set; } = true;
+
     public static Graphics Graphics { get; private set; }
 
 
@@ -26,11 +28,13 @@ class GameWorld
         GameObject player = new GameObject();
         player.AddComponent(new Player());
         player.AddComponent(new SpriteRenderer());
+        player.AddComponent(new Collider());
         gameObjects.Add(player);
 
         GameObject enemy = new GameObject();
         enemy.AddComponent(new Enemy());
         enemy.AddComponent(new SpriteRenderer());
+        enemy.AddComponent(new Collider());
         gameObjects.Add(enemy);
 
         Awake();

@@ -14,6 +14,7 @@ namespace WindowsForm.Classes
         private string laserSprite;
         private Vector2 direction;
         private Vector2 startPosition;
+        private Collider collider;
 
         public Laser(string laserSprite, Vector2 direction, Vector2 startPosition)
         {
@@ -24,7 +25,9 @@ namespace WindowsForm.Classes
 
         public override void Awake()
         {
+            GameObject.Tag = "Laser";
             speed = 300;
+            collider = (Collider)GameObject.GetComponent("Collider");
             GameObject.Transform.Position = startPosition;
             spriteRenderer = (SpriteRenderer)GameObject.GetComponent("SpriteRenderer");
             spriteRenderer.SetSprite(laserSprite);
@@ -44,7 +47,6 @@ namespace WindowsForm.Classes
         {
             GameObject.Transform.Translate(direction * speed * MyTime.DeltaTime);
         }
-
 
     }
 }
