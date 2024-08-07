@@ -52,24 +52,6 @@ public class GameObject
 
     public void update()
     {
-        /**
-            if (Keyboard.IsKeyDown(Keys.D))
-            {
-                transform.Position.X += 1;
-            }
-            if (Keyboard.IsKeyDown(Keys.A))
-            {
-                position.X -= 1;
-            }
-            if (Keyboard.IsKeyDown(Keys.W))
-            {
-                position.Y -= 1;
-            }
-            if (Keyboard.IsKeyDown(Keys.S))
-            {
-                position.Y += 1;
-            }
-        */
         foreach (var component in components.Values)
         {
             if (component.IsEnabled)
@@ -77,5 +59,14 @@ public class GameObject
                 component.Update();
             }
         }
+    }
+
+    public void Destroy()
+    {
+        foreach(var component in components.Values)
+        {
+            component.Destroy();
+        }
+        GameWorld.Destroy(this);
     }
 }

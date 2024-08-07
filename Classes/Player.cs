@@ -29,6 +29,8 @@ class Player : Component
     {
         GetInput();
         Move();
+        ScreenLimits();
+        ScreenWarp();
         HandleShootCooldown();
     }
 
@@ -95,5 +97,30 @@ class Player : Component
     public override string ToString()
     {
         return "Player";
+    }
+
+    private void ScreenLimits()
+    {
+        if (GameObject.Transform.Position.Y < 0)
+        {
+            GameObject.Transform.Position = new Vector2(GameObject.Transform.Position.X, 0);
+        }
+        if (GameObject.Transform.Position.Y > GameWorld.WorldSize.Height - spriteRenderer.Sprite.Height)
+        {
+            GameObject.Transform.Position = new Vector2(GameObject.Transform.Position.X, GameWorld.WorldSize.Height - spriteRenderer.Sprite.Height);
+        }
+    }
+
+    private void ScreenWarp()
+    {
+        if (GameObject.Transform.Position.X + spriteRenderer.Sprite.Width < 0)
+        {
+            GameObject.Transform.Position = new Vector2(GameWorld.WorldSize.Width, GameObject.Transform.Position.Y);
+
+        }
+        if (GameObject.Transform.Position.X > GameWorld.WorldSize.Width)
+        {
+            GameObject.Transform.Position = new Vector2(0 - spriteRenderer.Sprite.Width, GameObject.Transform.Position.Y);
+        }
     }
 }

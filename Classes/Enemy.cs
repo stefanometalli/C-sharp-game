@@ -53,8 +53,8 @@ namespace WindowsForm.Classes
         {
             if (other.GameObject.Tag == "Laser")
             {
-                GameWorld.Destroy(other.GameObject);
-                GameWorld.Destroy(GameObject);
+                other.GameObject.Destroy();
+                Reset();
             }
         }
     }

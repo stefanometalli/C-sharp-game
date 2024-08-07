@@ -46,5 +46,10 @@ namespace WindowsForm.Classes
             return "Collider";
         }
 
+        public override void Destroy()
+        {
+            colliders.Remove(this);
+        }
+
     }
 }

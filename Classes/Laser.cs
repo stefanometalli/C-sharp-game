@@ -39,7 +39,7 @@ namespace WindowsForm.Classes
             Move();  
             if(spriteRenderer.OnBecameInvisible())
             {
-                GameWorld.Destroy(GameObject);
+                GameObject.Destroy();
             }
         }
 

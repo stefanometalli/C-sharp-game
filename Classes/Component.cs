@@ -26,5 +26,10 @@ namespace WindowsForm.Classes
         {
 
         }
+
+        public virtual void Destroy()
+        {
+
+        }
     }
 }

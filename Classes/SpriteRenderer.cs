@@ -12,6 +12,8 @@ namespace WindowsForm.Classes
         private Image sprite;
         private bool isVisible;
 
+        public Image Sprite { get { return sprite; } }
+
         public RectangleF Rectangle 
         { 
             get 
