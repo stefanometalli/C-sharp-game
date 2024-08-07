@@ -5,7 +5,7 @@ class GameWorld
 
     private Color backgroundColor;
     public static Size WorldSize { get; private set; }
-    private List<GameObject> gameObjects = new List<GameObject>();
+    private static List<GameObject> gameObjects = new List<GameObject>();
     private BufferedGraphics bufferedGraphics;
 
     public static Graphics Graphics { get; private set; }
@@ -57,11 +57,25 @@ class GameWorld
     {
         MyTime.CalcDeltaTime();
         Graphics.Clear(backgroundColor);
-        foreach (var gameObject in gameObjects)
+
+        for (int i = 0; i < gameObjects.Count; i++)
         {
-            gameObject.update();
+            gameObjects[i].update();
         }
+
         bufferedGraphics.Render();
+    }
+
+    public static void Instatiate(GameObject go)
+    {
+        go.Awake();
+        go.Start();
+        gameObjects.Add(go);
+    }
+
+    public static void Destroy(GameObject go) 
+    {
+        gameObjects.Remove(go);
     }
 
 }

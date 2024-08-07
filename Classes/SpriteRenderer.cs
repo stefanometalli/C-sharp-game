@@ -10,6 +10,7 @@ namespace WindowsForm.Classes
     {
         private Graphics graphics;
         private Image sprite;
+        private bool isVisible;
 
         public RectangleF Rectangle 
         { 
@@ -35,6 +36,42 @@ namespace WindowsForm.Classes
         {
             graphics.DrawImage(sprite, Rectangle);
         }
+
+        /**
+         * Distrugge oggetti che erano visibili e poi sono diventati non visibili 
+         */
+        public bool OnBecameInvisible()
+        {
+            if(isVisible)
+            {
+                if (GameObject.Transform.Position.Y < -Rectangle.Height) 
+                {
+                    isVisible = false;
+                    return true;
+                }
+
+                if (GameObject.Transform.Position.Y > GameWorld.WorldSize.Height)
+                {
+                    isVisible = false;
+                    return true;
+                }
+
+                if (GameObject.Transform.Position.X > GameWorld.WorldSize.Width)
+                {
+                    isVisible = false;
+                    return true;
+                }
+
+                if (GameObject.Transform.Position.X < -Rectangle.Width)
+                {
+                    isVisible = false;
+                    return true;
+                }
+            }
+            isVisible = true;
+            return false;
+        }
+
         public override string ToString() 
         { 
             return "SpriteRenderer"; 

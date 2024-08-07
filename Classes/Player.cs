@@ -11,6 +11,10 @@ class Player : Component
     private float speed;
     private SpriteRenderer spriteRenderer;
 
+    private float shootCooldown = 1;
+    private float timeSinceLastShot;
+    private bool canShoot = true;
+
     public override void Awake()
     {
         speed = 200;
@@ -24,6 +28,7 @@ class Player : Component
     {
         GetInput();
         Move();
+        HandleShootCooldown();
     }
 
     private void GetInput()
@@ -46,6 +51,10 @@ class Player : Component
         {
             velocity += new Vector2(1, 0);
         }
+        if (Keyboard.IsKeyDown(Keys.Space))
+        {
+            Shoot();
+        }
 
         velocity = Vector2.Normalize(velocity);
     }
@@ -53,6 +62,32 @@ class Player : Component
     private void Move()
     {
         GameObject.Transform.Translate(velocity * speed * MyTime.DeltaTime);
+    }
+
+    private void Shoot()
+    {
+        if (canShoot)
+        {
+            canShoot = false;
+            timeSinceLastShot = 0;
+            GameObject laser = new GameObject();
+            Vector2 spawnPosition = new Vector2(GameObject.Transform.Position.X + spriteRenderer.Rectangle.Width / 2 - 3, GameObject.Transform.Position.Y - 18);
+            laser.AddComponent(new Laser("laser", new Vector2(0, -1), spawnPosition));
+            laser.AddComponent(new SpriteRenderer());
+            GameWorld.Instatiate(laser);
+        }
+    }
+
+    private void HandleShootCooldown()
+    {
+        if(!canShoot)
+        {
+            timeSinceLastShot += MyTime.DeltaTime;
+        }
+        if (timeSinceLastShot >= shootCooldown)
+        {
+            canShoot = true;
+        }
     }
 
     public override string ToString()
