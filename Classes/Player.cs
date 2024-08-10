@@ -10,6 +10,8 @@ class Player : Component
     private Vector2 velocity;
     private float speed;
     private SpriteRenderer spriteRenderer;
+    private Animator animator;
+    private Collider collider;
 
     private float shootCooldown = 1;
     private float timeSinceLastShot;
@@ -22,7 +24,13 @@ class Player : Component
         spriteRenderer = (SpriteRenderer)GameObject.GetComponent("SpriteRenderer");
         spriteRenderer.SetSprite("player");
         spriteRenderer.ScaleFactor = 0.7f;
+        collider = (Collider)GameObject.GetComponent("Collider");
+        collider.CollisionHandler += Collision;
+        animator = (Animator)GameObject.GetComponent("Animator");
+        animator.AddAnimation(new Animation("PlayerFly", 10));
+        animator.PlayAnimation("PlayerFly");
         GameObject.Transform.Position = new Vector2(GameWorld.WorldSize.Width / 2 - spriteRenderer.Rectangle.Width / 2, GameWorld.WorldSize.Height - spriteRenderer.Rectangle.Height);
+        Reset();
     }
 
     public override void Update()
@@ -105,9 +113,9 @@ class Player : Component
         {
             GameObject.Transform.Position = new Vector2(GameObject.Transform.Position.X, 0);
         }
-        if (GameObject.Transform.Position.Y > GameWorld.WorldSize.Height - spriteRenderer.Sprite.Height)
+        if (GameObject.Transform.Position.Y > GameWorld.WorldSize.Height - spriteRenderer.Rectangle.Height)
         {
-            GameObject.Transform.Position = new Vector2(GameObject.Transform.Position.X, GameWorld.WorldSize.Height - spriteRenderer.Sprite.Height);
+            GameObject.Transform.Position = new Vector2(GameObject.Transform.Position.X, GameWorld.WorldSize.Height - spriteRenderer.Rectangle.Height);
         }
     }
 
@@ -122,5 +130,48 @@ class Player : Component
         {
             GameObject.Transform.Position = new Vector2(0 - spriteRenderer.Sprite.Width, GameObject.Transform.Position.Y);
         }
+    }
+
+    private void Collision(Collider other)
+    {
+        if (other.GameObject.Tag == "Enemy")
+        {
+            GameManager.RemoveLife();
+            Reset();
+        }
+    }
+
+    private void Reset()
+    {
+        if (GameManager.LifeCount == 0)
+        {
+            RemovePlayer();
+        }
+        else
+        {
+            GameObject.Transform.Position = new Vector2(GameWorld.WorldSize.Width / 2 - spriteRenderer.Rectangle.Width / 2, GameWorld.WorldSize.Height - spriteRenderer.Rectangle.Height);
+        }
+    }
+
+    private void RemovePlayer()
+    {
+        Explode();
+        GameObject.Destroy();
+    }
+
+    public override void Destroy()
+    {
+        collider.Destroy();
+    }
+
+
+
+    private void Explode()
+    {
+        GameObject explosion = new GameObject();
+        explosion.AddComponent(new SpriteRenderer());
+        explosion.AddComponent(new Animator());
+        explosion.AddComponent(new Explosion(GameObject.Transform.Position));
+        GameWorld.Instatiate(explosion);
     }
 }

@@ -1,4 +1,6 @@
-﻿namespace WindowsForm;
+﻿using WindowsForm.Classes;
+
+namespace WindowsForm;
 
 partial class Form1
 {
@@ -29,7 +31,9 @@ partial class Form1
     private void InitializeComponent()
     {
         components = new System.ComponentModel.Container();
+        System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
         GameLoop = new System.Windows.Forms.Timer(components);
+        btnRestart = new NoSpaceClickButton();
         SuspendLayout();
         // 
         // GameLoop
@@ -38,11 +42,33 @@ partial class Form1
         GameLoop.Interval = 30;
         GameLoop.Tick += GameLoop_Tick;
         // 
+        // btnRestart
+        // 
+        btnRestart.BackColor = Color.Transparent;
+        btnRestart.BackgroundImage = (Image)resources.GetObject("btnRestart.BackgroundImage");
+        btnRestart.BackgroundImageLayout = ImageLayout.Stretch;
+        btnRestart.FlatAppearance.BorderSize = 0;
+        btnRestart.FlatStyle = FlatStyle.Flat;
+        btnRestart.Font = new Font("Showcard Gothic", 14.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
+        btnRestart.ForeColor = Color.Transparent;
+        btnRestart.Location = new Point(418, 574);
+        btnRestart.Margin = new Padding(6, 5, 6, 5);
+        btnRestart.Name = "btnRestart";
+        btnRestart.Size = new Size(183, 75);
+        btnRestart.TabIndex = 0;
+        btnRestart.Text = "RESTART";
+        btnRestart.UseVisualStyleBackColor = false;
+        btnRestart.Click += btnRestart_Click;
+        // 
         // Form1
         // 
-        AutoScaleDimensions = new SizeF(7F, 15F);
+        AutoScaleDimensions = new SizeF(14F, 23F);
         AutoScaleMode = AutoScaleMode.Font;
-        ClientSize = new Size(800, 450);
+        BackgroundImageLayout = ImageLayout.Stretch;
+        ClientSize = new Size(1008, 729);
+        Controls.Add(btnRestart);
+        Font = new Font("Showcard Gothic", 14.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
+        Margin = new Padding(6, 5, 6, 5);
         Name = "Form1";
         Text = "Form1";
         ResumeLayout(false);
@@ -51,4 +77,7 @@ partial class Form1
     #endregion
 
     private System.Windows.Forms.Timer GameLoop;
+    private NoSpaceClickButton btnRestart;
 }
+
+

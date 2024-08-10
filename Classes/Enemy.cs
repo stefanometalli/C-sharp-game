@@ -12,6 +12,7 @@ namespace WindowsForm.Classes
         private SpriteRenderer spriteRenderer;
         private float speed;
         private static Random random = new Random();
+        private Animator animator;
         private Collider collider;
 
         public override void Awake()
@@ -23,6 +24,10 @@ namespace WindowsForm.Classes
             spriteRenderer = (SpriteRenderer)GameObject.GetComponent("SpriteRenderer");
             spriteRenderer.SetSprite("enemy_01");
             spriteRenderer.ScaleFactor = 0.7f;
+            GameObject.Transform.Position = new Vector2(random.Next((int)spriteRenderer.Rectangle.Width, (int)GameWorld.WorldSize.Width - (int)spriteRenderer.Rectangle.Width), -spriteRenderer.Rectangle.Height);
+            animator = (Animator)GameObject.GetComponent("Animator");
+            animator.AddAnimation(new Animation("EnemyFly", 10));
+            animator.PlayAnimation("EnemyFly");
         }
 
         public override void Update()
@@ -54,8 +59,24 @@ namespace WindowsForm.Classes
             if (other.GameObject.Tag == "Laser")
             {
                 other.GameObject.Destroy();
+                Explode();
                 Reset();
             }
+        }
+
+        public override void Destroy()
+        {
+            collider.Destroy();
+        }
+
+        private void Explode()
+        {
+            GameObject explosion = new GameObject();
+            explosion.AddComponent(new SpriteRenderer());
+            explosion.AddComponent(new Animator());
+            explosion.AddComponent(new Explosion(GameObject.Transform.Position));
+
+            GameWorld.Instatiate(explosion);
         }
     }
 }

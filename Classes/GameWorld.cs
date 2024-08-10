@@ -24,18 +24,27 @@ class GameWorld
 
     }
 
-    private void Initialize()
+    public void Initialize()
     {
+        for (int i = 0; i < gameObjects.Count; i++) 
+        {
+            gameObjects[i].Destroy();
+        }
+        gameObjects.Clear();
+        GameManager.Reset();
+
         GameObject player = new GameObject();
         player.AddComponent(new Player());
         player.AddComponent(new SpriteRenderer(2));
         player.AddComponent(new Collider());
+        player.AddComponent(new Animator());
         gameObjects.Add(player);
 
         GameObject enemy = new GameObject();
         enemy.AddComponent(new Enemy());
         enemy.AddComponent(new SpriteRenderer(1));
         enemy.AddComponent(new Collider());
+        enemy.AddComponent(new Animator());
         gameObjects.Add(enemy);
 
         GameObject background1 = new GameObject();
@@ -63,6 +72,11 @@ class GameWorld
         planet.AddComponent(new SpriteRenderer());
         planet.AddComponent(new BackgroundElement("planet_01"));
         gameObjects.Add(planet);
+
+        for (int i = 0; i < 3; i++)
+        {
+            GameManager.AddLife();
+        }
 
         gameObjects.Sort();
         Awake();
@@ -93,6 +107,11 @@ class GameWorld
         for (int i = 0; i < gameObjects.Count; i++)
         {
             gameObjects[i].update();
+        }
+
+        for (int i = 0; i < GameManager.UIElements.Count; i++)
+        {
+            GameManager.UIElements[i].update();
         }
 
         bufferedGraphics.Render();
