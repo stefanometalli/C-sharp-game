@@ -38,10 +38,31 @@ class GameWorld
         enemy.AddComponent(new Collider());
         gameObjects.Add(enemy);
 
-        GameObject background = new GameObject();
-        background.AddComponent(new Background("Bg1_Trans", Vector2.Zero, 20));
-        background.AddComponent(new SpriteRenderer(0));
-        gameObjects.Add(background);
+        GameObject background1 = new GameObject();
+        GameObject background2 = new GameObject();
+        GameObject background3 = new GameObject();
+
+        background1.AddComponent(new Background("Bg1_Trans", Vector2.Zero, 40, background3.Transform));
+        background1.AddComponent(new SpriteRenderer(0));
+        gameObjects.Add(background1);
+
+        background2.AddComponent(new Background("Bg2_Trans", new Vector2(0, -768), 40, background1.Transform));
+        background2.AddComponent(new SpriteRenderer(0));
+        gameObjects.Add(background2);
+
+        background3.AddComponent(new Background("Bg3_Trans", new Vector2(0, -768*2), 40, background2.Transform));
+        background3.AddComponent(new SpriteRenderer(0));
+        gameObjects.Add(background3);
+
+        GameObject smoke = new GameObject();
+        smoke.AddComponent(new SpriteRenderer());
+        smoke.AddComponent(new BackgroundElement("space-smoke_01"));
+        gameObjects.Add(smoke);
+
+        GameObject planet = new GameObject();
+        planet.AddComponent(new SpriteRenderer());
+        planet.AddComponent(new BackgroundElement("planet_01"));
+        gameObjects.Add(planet);
 
         gameObjects.Sort();
         Awake();

@@ -9,15 +9,17 @@ namespace WindowsForm.Classes
 {
     class Background : Component
     {
-        private SpriteRenderer spriteRenderer;
+        protected SpriteRenderer spriteRenderer;
         private Vector2 startPosition;
-        private float speed;
+        protected float speed;
         private Image sprite;
+        private Transform sibling;
 
-        public Background(string spriteName, Vector2 position, float speed)
+        public Background(string spriteName, Vector2 position, float speed, Transform sibling)
         {
             this.startPosition = position;
             this.speed = speed;
+            this.sibling = sibling;
             sprite = Image.FromFile($@"Sprites/{spriteName}.png");
         }
 
@@ -42,9 +44,9 @@ namespace WindowsForm.Classes
             }
         }
 
-        private void Reset()
+        public virtual void Reset()
         {
-            GameObject.Transform.Position = new Vector2(0, -spriteRenderer.Sprite.Height);
+            GameObject.Transform.Position = new Vector2(0, sibling.Position.Y -spriteRenderer.Sprite.Height);
         }
     }
 }
