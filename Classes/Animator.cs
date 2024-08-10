@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace WindowsForm.Classes
 {
+    public delegate void AnimationDoneDelegate(string name);
     class Animator : Component
     {
         private SpriteRenderer spriteRenderer;
@@ -13,6 +14,8 @@ namespace WindowsForm.Classes
         private Animation currentAnimation;
         private float timeElapsed;
         private int currentIndex;
+
+        public AnimationDoneDelegate AnimationDoneEvent { get; set; }
 
         public override void Awake()
         {
@@ -30,6 +33,7 @@ namespace WindowsForm.Classes
                 {
                     timeElapsed = 0;
                     currentIndex = 0;
+                    OnAnimationDone(currentAnimation.Name);
                 }
 
                 spriteRenderer.Sprite = currentAnimation.Sprites[currentIndex];
@@ -44,11 +48,24 @@ namespace WindowsForm.Classes
         public void PlayAnimation(string animationName)
         {
             currentAnimation = animations[animationName];
+
+            if (spriteRenderer != null)
+            {
+                spriteRenderer.Sprite = currentAnimation.Sprites[0];
+            }
         }
 
         public override string ToString()
         {
             return "Animator";
+        }
+
+        public void OnAnimationDone(string name)
+        {
+            if (AnimationDoneEvent != null)
+            {
+                AnimationDoneEvent.Invoke(name);
+            }
         }
     }
 }

@@ -58,8 +58,19 @@ namespace WindowsForm.Classes
             if (other.GameObject.Tag == "Laser")
             {
                 other.GameObject.Destroy();
+                Explode();
                 Reset();
             }
+        }
+
+        private void Explode()
+        {
+            GameObject explosion = new GameObject();
+            explosion.AddComponent(new SpriteRenderer());
+            explosion.AddComponent(new Animator());
+            explosion.AddComponent(new Explosion(GameObject.Transform.Position));
+
+            GameWorld.Instatiate(explosion);
         }
     }
 }
