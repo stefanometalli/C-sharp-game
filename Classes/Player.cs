@@ -30,6 +30,7 @@ class Player : Component
         animator.AddAnimation(new Animation("PlayerFly", 10));
         animator.PlayAnimation("PlayerFly");
         GameObject.Transform.Position = new Vector2(GameWorld.WorldSize.Width / 2 - spriteRenderer.Rectangle.Width / 2, GameWorld.WorldSize.Height - spriteRenderer.Rectangle.Height);
+        Reset();
     }
 
     public override void Update()
@@ -112,9 +113,9 @@ class Player : Component
         {
             GameObject.Transform.Position = new Vector2(GameObject.Transform.Position.X, 0);
         }
-        if (GameObject.Transform.Position.Y > GameWorld.WorldSize.Height - spriteRenderer.Sprite.Height)
+        if (GameObject.Transform.Position.Y > GameWorld.WorldSize.Height - spriteRenderer.Rectangle.Height)
         {
-            GameObject.Transform.Position = new Vector2(GameObject.Transform.Position.X, GameWorld.WorldSize.Height - spriteRenderer.Sprite.Height);
+            GameObject.Transform.Position = new Vector2(GameObject.Transform.Position.X, GameWorld.WorldSize.Height - spriteRenderer.Rectangle.Height);
         }
     }
 
@@ -136,6 +137,34 @@ class Player : Component
         if (other.GameObject.Tag == "Enemy")
         {
             GameManager.RemoveLife();
+            Reset();
         }
+    }
+
+    private void Reset()
+    {
+        if (GameManager.LifeCount == 0)
+        {
+            RemovePlayer();
+        }
+        else
+        {
+            GameObject.Transform.Position = new Vector2(GameWorld.WorldSize.Width / 2 - spriteRenderer.Rectangle.Width / 2, GameWorld.WorldSize.Height - spriteRenderer.Rectangle.Height);
+        }
+    }
+
+    private void RemovePlayer()
+    {
+        Explode();
+        GameWorld.Destroy(GameObject);
+    }
+
+    private void Explode()
+    {
+        GameObject explosion = new GameObject();
+        explosion.AddComponent(new SpriteRenderer());
+        explosion.AddComponent(new Animator());
+        explosion.AddComponent(new Explosion(GameObject.Transform.Position));
+        GameWorld.Instatiate(explosion);
     }
 }
