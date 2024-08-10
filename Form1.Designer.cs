@@ -68,9 +68,10 @@ partial class Form1
         ClientSize = new Size(1008, 729);
         Controls.Add(btnRestart);
         Font = new Font("Showcard Gothic", 14.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
+        FormBorderStyle = FormBorderStyle.FixedSingle;
         Margin = new Padding(6, 5, 6, 5);
         Name = "Form1";
-        Text = "Form1";
+        Text = "Space Fight";
         ResumeLayout(false);
     }
 
