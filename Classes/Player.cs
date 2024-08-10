@@ -10,6 +10,7 @@ class Player : Component
     private Vector2 velocity;
     private float speed;
     private SpriteRenderer spriteRenderer;
+    private Animator animator;
 
     private float shootCooldown = 1;
     private float timeSinceLastShot;
@@ -22,6 +23,9 @@ class Player : Component
         spriteRenderer = (SpriteRenderer)GameObject.GetComponent("SpriteRenderer");
         spriteRenderer.SetSprite("player");
         spriteRenderer.ScaleFactor = 0.7f;
+        animator = (Animator)GameObject.GetComponent("Animator");
+        animator.AddAnimation(new Animation("PlayerFly", 10));
+        animator.PlayAnimation("PlayerFly");
         GameObject.Transform.Position = new Vector2(GameWorld.WorldSize.Width / 2 - spriteRenderer.Rectangle.Width / 2, GameWorld.WorldSize.Height - spriteRenderer.Rectangle.Height);
     }
 

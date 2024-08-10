@@ -12,6 +12,7 @@ namespace WindowsForm.Classes
         private SpriteRenderer spriteRenderer;
         private float speed;
         private static Random random = new Random();
+        private Animator animator;
         private Collider collider;
 
         public override void Awake()
@@ -23,6 +24,9 @@ namespace WindowsForm.Classes
             spriteRenderer = (SpriteRenderer)GameObject.GetComponent("SpriteRenderer");
             spriteRenderer.SetSprite("enemy_01");
             spriteRenderer.ScaleFactor = 0.7f;
+            animator = (Animator)GameObject.GetComponent("Animator");
+            animator.AddAnimation(new Animation("EnemyFly", 10));
+            animator.PlayAnimation("EnemyFly");
         }
 
         public override void Update()

@@ -30,12 +30,14 @@ class GameWorld
         player.AddComponent(new Player());
         player.AddComponent(new SpriteRenderer(2));
         player.AddComponent(new Collider());
+        player.AddComponent(new Animator());
         gameObjects.Add(player);
 
         GameObject enemy = new GameObject();
         enemy.AddComponent(new Enemy());
         enemy.AddComponent(new SpriteRenderer(1));
         enemy.AddComponent(new Collider());
+        enemy.AddComponent(new Animator());
         gameObjects.Add(enemy);
 
         GameObject background1 = new GameObject();
