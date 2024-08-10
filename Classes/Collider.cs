@@ -13,6 +13,7 @@ namespace WindowsForm.Classes
         private SpriteRenderer spriteRenderer;
         public event CollisionEventHandler CollisionHandler;
         private static List<Collider> colliders = new List<Collider>();
+        private List<Collider> otherColliders = new List<Collider>();
 
         public override void Awake()
         {
@@ -34,9 +35,21 @@ namespace WindowsForm.Classes
             {
                 RectangleF intersection = RectangleF.Intersect(spriteRenderer.Rectangle, other.spriteRenderer.Rectangle);
 
-                if ((intersection.Width > 0 || intersection.Height > 0) && CollisionHandler != null)
+                if (!otherColliders.Contains(other))
                 {
-                    CollisionHandler.Invoke(other);
+
+                    if ((intersection.Width > 0 || intersection.Height > 0) && CollisionHandler != null)
+                    {
+                        otherColliders.Add(other);
+                        CollisionHandler.Invoke(other);
+                    }
+                }
+                else
+                {
+                    if ((intersection.Width <= 0 || intersection.Height <= 0) && CollisionHandler != null)
+                    {
+                        otherColliders.Remove(other);
+                    }
                 }
             }
         }

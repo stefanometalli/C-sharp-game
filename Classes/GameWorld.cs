@@ -66,6 +66,11 @@ class GameWorld
         planet.AddComponent(new BackgroundElement("planet_01"));
         gameObjects.Add(planet);
 
+        for (int i = 0; i < 3; i++)
+        {
+            GameManager.AddLife();
+        }
+
         gameObjects.Sort();
         Awake();
         Start();
@@ -95,6 +100,11 @@ class GameWorld
         for (int i = 0; i < gameObjects.Count; i++)
         {
             gameObjects[i].update();
+        }
+
+        for (int i = 0; i < GameManager.UIElements.Count; i++)
+        {
+            GameManager.UIElements[i].update();
         }
 
         bufferedGraphics.Render();

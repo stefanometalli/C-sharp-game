@@ -11,6 +11,7 @@ class Player : Component
     private float speed;
     private SpriteRenderer spriteRenderer;
     private Animator animator;
+    private Collider collider;
 
     private float shootCooldown = 1;
     private float timeSinceLastShot;
@@ -23,6 +24,8 @@ class Player : Component
         spriteRenderer = (SpriteRenderer)GameObject.GetComponent("SpriteRenderer");
         spriteRenderer.SetSprite("player");
         spriteRenderer.ScaleFactor = 0.7f;
+        collider = (Collider)GameObject.GetComponent("Collider");
+        collider.CollisionHandler += Collision;
         animator = (Animator)GameObject.GetComponent("Animator");
         animator.AddAnimation(new Animation("PlayerFly", 10));
         animator.PlayAnimation("PlayerFly");
@@ -125,6 +128,14 @@ class Player : Component
         if (GameObject.Transform.Position.X > GameWorld.WorldSize.Width)
         {
             GameObject.Transform.Position = new Vector2(0 - spriteRenderer.Sprite.Width, GameObject.Transform.Position.Y);
+        }
+    }
+
+    private void Collision(Collider other)
+    {
+        if (other.GameObject.Tag == "Enemy")
+        {
+            GameManager.RemoveLife();
         }
     }
 }
