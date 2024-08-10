@@ -76,7 +76,7 @@ class Player : Component
             GameObject laser = new GameObject();
             Vector2 spawnPosition = new Vector2(GameObject.Transform.Position.X + spriteRenderer.Rectangle.Width / 2 - 3, GameObject.Transform.Position.Y - 18);
             laser.AddComponent(new Laser("laser", new Vector2(0, -1), spawnPosition));
-            laser.AddComponent(new SpriteRenderer());
+            laser.AddComponent(new SpriteRenderer(1));
             laser.AddComponent(new Collider());
             GameWorld.Instatiate(laser);
         }

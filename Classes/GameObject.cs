@@ -1,6 +1,6 @@
 using WindowsForm.Classes;
 
-public class GameObject
+public class GameObject : IComparable<GameObject>
 {
 
     private Transform transform;
@@ -23,7 +23,11 @@ public class GameObject
 
     public Component GetComponent(string componentName)
     {
-        return components[componentName];
+        if (components.ContainsKey(componentName))
+        {
+            return components[componentName];
+        }
+        return null;
     }
 
     public bool HasComponent(string componentName) 
@@ -68,5 +72,28 @@ public class GameObject
             component.Destroy();
         }
         GameWorld.Destroy(this);
+    }
+
+    public int CompareTo(GameObject? other)
+    {
+        SpriteRenderer otherRenderer = (SpriteRenderer)other.GetComponent("SpriteRenderer");
+        SpriteRenderer renderer = (SpriteRenderer)this.GetComponent("SpriteRenderer");
+
+        if (otherRenderer != null && renderer != null)
+        {
+            if (renderer.SortOrder > otherRenderer.SortOrder)
+            {
+                return 1;
+            }
+            else if (renderer.SortOrder < otherRenderer.SortOrder)
+            {
+                return -1;
+            }
+            return 0;
+        }
+        else
+        {
+            return -1;
+        }
     }
 }

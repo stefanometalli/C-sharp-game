@@ -12,7 +12,17 @@ namespace WindowsForm.Classes
         private Image sprite;
         private bool isVisible;
 
-        public Image Sprite { get { return sprite; } }
+        public int SortOrder { get; set; }
+
+        public Image Sprite { 
+            get { 
+                return sprite; 
+            }
+            set
+            {
+                sprite = value;
+            }
+        }
 
         public RectangleF Rectangle 
         { 
@@ -29,6 +39,14 @@ namespace WindowsForm.Classes
         public SpriteRenderer()
         {
             graphics = GameWorld.Graphics;
+            this.SortOrder = 0;
+        }
+
+        public SpriteRenderer(int sortOrder)
+        {
+            graphics = GameWorld.Graphics;
+            this.SortOrder = 0;
+            this.SortOrder = sortOrder;
         }
 
         public void SetSprite(string spriteName)

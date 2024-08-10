@@ -1,4 +1,5 @@
-﻿using WindowsForm.Classes;
+﻿using System.Numerics;
+using WindowsForm.Classes;
 
 class GameWorld
 {
@@ -8,7 +9,7 @@ class GameWorld
     private static List<GameObject> gameObjects = new List<GameObject>();
     private BufferedGraphics bufferedGraphics;
 
-    public static bool Debug { get; set; } = true;
+    public static bool Debug { get; set; } = false;
 
     public static Graphics Graphics { get; private set; }
 
@@ -27,16 +28,22 @@ class GameWorld
     {
         GameObject player = new GameObject();
         player.AddComponent(new Player());
-        player.AddComponent(new SpriteRenderer());
+        player.AddComponent(new SpriteRenderer(2));
         player.AddComponent(new Collider());
         gameObjects.Add(player);
 
         GameObject enemy = new GameObject();
         enemy.AddComponent(new Enemy());
-        enemy.AddComponent(new SpriteRenderer());
+        enemy.AddComponent(new SpriteRenderer(1));
         enemy.AddComponent(new Collider());
         gameObjects.Add(enemy);
 
+        GameObject background = new GameObject();
+        background.AddComponent(new Background("Bg1_Trans", Vector2.Zero, 20));
+        background.AddComponent(new SpriteRenderer(0));
+        gameObjects.Add(background);
+
+        gameObjects.Sort();
         Awake();
         Start();
     }
@@ -75,6 +82,7 @@ class GameWorld
         go.Awake();
         go.Start();
         gameObjects.Add(go);
+        gameObjects.Sort();
     }
 
     public static void Destroy(GameObject go) 
