@@ -12,6 +12,14 @@ public static class GameManager
 
     private static GameObject currentLife;
 
+    private static Button restartButton;
+
+    public static void Initialize(Button button)
+    {
+        restartButton = button;
+        restartButton.Hide();
+    }
+
     public static void AddLife()
     {
         currentLife = new GameObject();
@@ -29,7 +37,7 @@ public static class GameManager
 
     public static void RemoveLife()
     {
-        if (LifeCount > 0)
+        if (LifeCount > 1)
         {
             UIElements[UIElements.Count - 1].Destroy();
             currentLife = UIElements[LifeCount - 1];
@@ -38,7 +46,34 @@ public static class GameManager
         }
         else
         {
-            //GameOver
+            UIElements[UIElements.Count - 1].Destroy();
+            currentLife = UIElements[LifeCount - 1];
+            UIElements.RemoveAt(LifeCount - 1);
+            LifeCount--;
+            GameOver();
         }
+
     }
+
+    public static void GameOver()
+    {
+        GameObject gameOver = new GameObject();
+        SpriteRenderer sr = new SpriteRenderer();
+        sr.SetSprite("GameOver");
+        gameOver.AddComponent(sr);
+        UIElements.Add(gameOver);
+        restartButton.Show();
+    }
+    public static void Reset() 
+    {
+        restartButton.Hide();
+        for (int i = 0; i < UIElements.Count; i++)
+        {
+            UIElements[i].Destroy();
+        }
+        UIElements.Clear();
+        LifeCount = 0;
+        xOffset = 0;
+    }
+
 }

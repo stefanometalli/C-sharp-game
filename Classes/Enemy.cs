@@ -24,6 +24,7 @@ namespace WindowsForm.Classes
             spriteRenderer = (SpriteRenderer)GameObject.GetComponent("SpriteRenderer");
             spriteRenderer.SetSprite("enemy_01");
             spriteRenderer.ScaleFactor = 0.7f;
+            GameObject.Transform.Position = new Vector2(random.Next((int)spriteRenderer.Rectangle.Width, (int)GameWorld.WorldSize.Width - (int)spriteRenderer.Rectangle.Width), -spriteRenderer.Rectangle.Height);
             animator = (Animator)GameObject.GetComponent("Animator");
             animator.AddAnimation(new Animation("EnemyFly", 10));
             animator.PlayAnimation("EnemyFly");
@@ -61,6 +62,11 @@ namespace WindowsForm.Classes
                 Explode();
                 Reset();
             }
+        }
+
+        public override void Destroy()
+        {
+            collider.Destroy();
         }
 
         private void Explode()

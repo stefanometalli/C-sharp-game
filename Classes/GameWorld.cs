@@ -24,8 +24,15 @@ class GameWorld
 
     }
 
-    private void Initialize()
+    public void Initialize()
     {
+        for (int i = 0; i < gameObjects.Count; i++) 
+        {
+            gameObjects[i].Destroy();
+        }
+        gameObjects.Clear();
+        GameManager.Reset();
+
         GameObject player = new GameObject();
         player.AddComponent(new Player());
         player.AddComponent(new SpriteRenderer(2));

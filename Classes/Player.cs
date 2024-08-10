@@ -156,8 +156,15 @@ class Player : Component
     private void RemovePlayer()
     {
         Explode();
-        GameWorld.Destroy(GameObject);
+        GameObject.Destroy();
     }
+
+    public override void Destroy()
+    {
+        collider.Destroy();
+    }
+
+
 
     private void Explode()
     {
