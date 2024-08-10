@@ -17,6 +17,7 @@ class Player : Component
 
     public override void Awake()
     {
+        GameObject.Tag = "Player";
         speed = 200;
         spriteRenderer = (SpriteRenderer)GameObject.GetComponent("SpriteRenderer");
         spriteRenderer.SetSprite("player");
@@ -28,6 +29,8 @@ class Player : Component
     {
         GetInput();
         Move();
+        ScreenLimits();
+        ScreenWarp();
         HandleShootCooldown();
     }
 
@@ -73,7 +76,8 @@ class Player : Component
             GameObject laser = new GameObject();
             Vector2 spawnPosition = new Vector2(GameObject.Transform.Position.X + spriteRenderer.Rectangle.Width / 2 - 3, GameObject.Transform.Position.Y - 18);
             laser.AddComponent(new Laser("laser", new Vector2(0, -1), spawnPosition));
-            laser.AddComponent(new SpriteRenderer());
+            laser.AddComponent(new SpriteRenderer(1));
+            laser.AddComponent(new Collider());
             GameWorld.Instatiate(laser);
         }
     }
@@ -93,5 +97,30 @@ class Player : Component
     public override string ToString()
     {
         return "Player";
+    }
+
+    private void ScreenLimits()
+    {
+        if (GameObject.Transform.Position.Y < 0)
+        {
+            GameObject.Transform.Position = new Vector2(GameObject.Transform.Position.X, 0);
+        }
+        if (GameObject.Transform.Position.Y > GameWorld.WorldSize.Height - spriteRenderer.Sprite.Height)
+        {
+            GameObject.Transform.Position = new Vector2(GameObject.Transform.Position.X, GameWorld.WorldSize.Height - spriteRenderer.Sprite.Height);
+        }
+    }
+
+    private void ScreenWarp()
+    {
+        if (GameObject.Transform.Position.X + spriteRenderer.Sprite.Width < 0)
+        {
+            GameObject.Transform.Position = new Vector2(GameWorld.WorldSize.Width, GameObject.Transform.Position.Y);
+
+        }
+        if (GameObject.Transform.Position.X > GameWorld.WorldSize.Width)
+        {
+            GameObject.Transform.Position = new Vector2(0 - spriteRenderer.Sprite.Width, GameObject.Transform.Position.Y);
+        }
     }
 }

@@ -1,10 +1,12 @@
 using WindowsForm.Classes;
 
-class GameObject
+public class GameObject : IComparable<GameObject>
 {
 
     private Transform transform;
     private Dictionary<string, Component> components = new Dictionary<string, Component>();
+
+    public string Tag { get; set; }
 
     public GameObject()
     {
@@ -21,7 +23,11 @@ class GameObject
 
     public Component GetComponent(string componentName)
     {
-        return components[componentName];
+        if (components.ContainsKey(componentName))
+        {
+            return components[componentName];
+        }
+        return null;
     }
 
     public bool HasComponent(string componentName) 
@@ -50,30 +56,44 @@ class GameObject
 
     public void update()
     {
-        /**
-            if (Keyboard.IsKeyDown(Keys.D))
-            {
-                transform.Position.X += 1;
-            }
-            if (Keyboard.IsKeyDown(Keys.A))
-            {
-                position.X -= 1;
-            }
-            if (Keyboard.IsKeyDown(Keys.W))
-            {
-                position.Y -= 1;
-            }
-            if (Keyboard.IsKeyDown(Keys.S))
-            {
-                position.Y += 1;
-            }
-        */
         foreach (var component in components.Values)
         {
             if (component.IsEnabled)
             {
                 component.Update();
             }
+        }
+    }
+
+    public void Destroy()
+    {
+        foreach(var component in components.Values)
+        {
+            component.Destroy();
+        }
+        GameWorld.Destroy(this);
+    }
+
+    public int CompareTo(GameObject? other)
+    {
+        SpriteRenderer otherRenderer = (SpriteRenderer)other.GetComponent("SpriteRenderer");
+        SpriteRenderer renderer = (SpriteRenderer)this.GetComponent("SpriteRenderer");
+
+        if (otherRenderer != null && renderer != null)
+        {
+            if (renderer.SortOrder > otherRenderer.SortOrder)
+            {
+                return 1;
+            }
+            else if (renderer.SortOrder < otherRenderer.SortOrder)
+            {
+                return -1;
+            }
+            return 0;
+        }
+        else
+        {
+            return -1;
         }
     }
 }

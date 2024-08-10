@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace WindowsForm.Classes
 {
-    abstract class Component
+    public abstract class Component
     {
         public GameObject GameObject { get; set; }
 
@@ -23,6 +23,11 @@ namespace WindowsForm.Classes
         }
 
         public virtual void Update()
+        {
+
+        }
+
+        public virtual void Destroy()
         {
 
         }
