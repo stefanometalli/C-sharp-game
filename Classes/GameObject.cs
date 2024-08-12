@@ -71,6 +71,7 @@ public class GameObject : IComparable<GameObject>
         {
             component.Destroy();
         }
+        components.Clear();
         GameWorld.Destroy(this);
     }
 

@@ -14,10 +14,15 @@ public static class GameManager
 
     private static Button restartButton;
 
-    public static void Initialize(Button button)
+    private static int score;
+
+    private static Label scoreLabel;
+
+    public static void Initialize(Button button, Label label)
     {
         restartButton = button;
         restartButton.Hide();
+        scoreLabel = label;
     }
 
     public static void AddLife()
@@ -74,6 +79,14 @@ public static class GameManager
         UIElements.Clear();
         LifeCount = 0;
         xOffset = 0;
+        score = 0;
+        scoreLabel.Text = $"Score:{score}";
+    }
+
+    public static void increaseScore()
+    {
+        score++;
+        scoreLabel.Text = $"Score:{score}";
     }
 
 }

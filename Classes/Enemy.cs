@@ -61,6 +61,7 @@ namespace WindowsForm.Classes
                 other.GameObject.Destroy();
                 Explode();
                 Reset();
+                GameManager.increaseScore();
             }
         }
 
@@ -72,11 +73,17 @@ namespace WindowsForm.Classes
         private void Explode()
         {
             GameObject explosion = new GameObject();
-            explosion.AddComponent(new SpriteRenderer());
+            explosion.AddComponent(new SpriteRenderer(3));
             explosion.AddComponent(new Animator());
             explosion.AddComponent(new Explosion(GameObject.Transform.Position));
 
+            GameObject supplyCrate = new GameObject();
+            supplyCrate.AddComponent(new SpriteRenderer());
+            supplyCrate.AddComponent(new SupplyCrate(GameObject.Transform.Position));
+            supplyCrate.AddComponent(new Collider());
+
             GameWorld.Instatiate(explosion);
+            GameWorld.Instatiate(supplyCrate);
         }
     }
 }
