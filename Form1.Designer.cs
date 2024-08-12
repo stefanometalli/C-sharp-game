@@ -34,6 +34,7 @@ partial class Form1
         System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
         GameLoop = new System.Windows.Forms.Timer(components);
         btnRestart = new NoSpaceClickButton();
+        lblScore = new Label();
         SuspendLayout();
         // 
         // GameLoop
@@ -60,24 +61,39 @@ partial class Form1
         btnRestart.UseVisualStyleBackColor = false;
         btnRestart.Click += btnRestart_Click;
         // 
+        // lblScore
+        // 
+        lblScore.AutoSize = true;
+        lblScore.BackColor = SystemColors.WindowFrame;
+        lblScore.ForeColor = Color.White;
+        lblScore.Location = new Point(892, 20);
+        lblScore.Name = "lblScore";
+        lblScore.Size = new Size(93, 23);
+        lblScore.TabIndex = 1;
+        lblScore.Text = "Score:0";
+        // 
         // Form1
         // 
         AutoScaleDimensions = new SizeF(14F, 23F);
         AutoScaleMode = AutoScaleMode.Font;
         BackgroundImageLayout = ImageLayout.Stretch;
         ClientSize = new Size(1008, 729);
+        Controls.Add(lblScore);
         Controls.Add(btnRestart);
         Font = new Font("Showcard Gothic", 14.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
+        FormBorderStyle = FormBorderStyle.FixedSingle;
         Margin = new Padding(6, 5, 6, 5);
         Name = "Form1";
-        Text = "Form1";
+        Text = "Space Fight";
         ResumeLayout(false);
+        PerformLayout();
     }
 
     #endregion
 
     private System.Windows.Forms.Timer GameLoop;
     private NoSpaceClickButton btnRestart;
+    private Label lblScore;
 }
 
 

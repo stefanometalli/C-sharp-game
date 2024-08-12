@@ -12,10 +12,17 @@ class Player : Component
     private SpriteRenderer spriteRenderer;
     private Animator animator;
     private Collider collider;
+    private GameObject shield;
 
     private float shootCooldown = 1;
     private float timeSinceLastShot;
     private bool canShoot = true;
+    private bool immortal = false;
+    private float immortalTime;
+    private float immortalDuration = 3;
+    private float blinkCooldown = .2f;
+    private float timeSinceLastBlink;
+
 
     public override void Awake()
     {
@@ -40,6 +47,7 @@ class Player : Component
         ScreenLimits();
         ScreenWarp();
         HandleShootCooldown();
+        Immortality();
     }
 
     private void GetInput()
@@ -134,10 +142,19 @@ class Player : Component
 
     private void Collision(Collider other)
     {
-        if (other.GameObject.Tag == "Enemy")
+        if (other.GameObject.Tag == "Enemy" && !immortal)
         {
-            GameManager.RemoveLife();
-            Reset();
+            if (shield != null)
+            {
+                GameWorld.Destroy(shield);
+                shield = null;
+            }
+            else
+            {
+                immortal = true;
+                GameManager.RemoveLife();
+                Reset();
+            }
         }
     }
 
@@ -173,5 +190,41 @@ class Player : Component
         explosion.AddComponent(new Animator());
         explosion.AddComponent(new Explosion(GameObject.Transform.Position));
         GameWorld.Instatiate(explosion);
+    }
+
+    public void ApplyShield()
+    {
+        if (shield == null)
+        {
+            shield = new GameObject();
+            shield.AddComponent(new Shield(GameObject.Transform, new Vector2(-35, -35)));
+            shield.AddComponent(new SpriteRenderer(3));
+            shield.AddComponent(new Collider());
+            GameWorld.Instatiate(shield);
+        }
+    }
+
+    public void Immortality()
+    {
+        if (immortal)
+        {
+            timeSinceLastBlink += MyTime.DeltaTime;
+
+            if (timeSinceLastBlink >= blinkCooldown)
+            {
+                spriteRenderer.IsEnabled = !spriteRenderer.IsEnabled;
+                timeSinceLastBlink = 0;
+            }
+
+            immortalTime += MyTime.DeltaTime;
+
+            if (immortalTime >= immortalDuration)
+            {
+                immortal = false;
+                spriteRenderer.IsEnabled = true;
+                immortalTime = 0;
+                timeSinceLastBlink = 0;
+            }
+        }
     }
 }
