@@ -11,7 +11,9 @@ public partial class Form1 : Form
     {
         InitializeComponent();
         this.SetClientSizeCore(1024, 768);
-        GameManager.Initialize(btnRestart);
+
+        GameManager.Initialize(btnRestart, lblScore);
+
         gameWorld = new GameWorld(DisplayRectangle, CreateGraphics());
     }
 
