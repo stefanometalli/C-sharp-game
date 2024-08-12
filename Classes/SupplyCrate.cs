@@ -12,6 +12,7 @@ namespace WindowsForm.Classes
 
         private Vector2 spawnPosition;
         private Collider collider;
+        private static Random random = new Random();
 
         public SupplyCrate(Vector2 position)
         {
@@ -36,7 +37,15 @@ namespace WindowsForm.Classes
         {
             if (other.GameObject.Tag == "Player")
             {
-                GameManager.RemoveLife();
+
+                if (random.Next() % 2 == 0)
+                {
+                    (other.GameObject.GetComponent("Player") as Player).ApplyShield();
+                }
+                else
+                {
+                    GameManager.AddLife();
+                }
                 GameObject.Destroy();
             }
         }
