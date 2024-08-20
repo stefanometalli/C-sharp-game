@@ -52,10 +52,10 @@ partial class Form1
         btnRestart.FlatStyle = FlatStyle.Flat;
         btnRestart.Font = new Font("Showcard Gothic", 14.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
         btnRestart.ForeColor = Color.Transparent;
-        btnRestart.Location = new Point(418, 574);
+        btnRestart.Location = new Point(391, 536);
         btnRestart.Margin = new Padding(6, 5, 6, 5);
         btnRestart.Name = "btnRestart";
-        btnRestart.Size = new Size(183, 75);
+        btnRestart.Size = new Size(277, 75);
         btnRestart.TabIndex = 0;
         btnRestart.Text = "RESTART";
         btnRestart.UseVisualStyleBackColor = false;
@@ -66,18 +66,18 @@ partial class Form1
         lblScore.AutoSize = true;
         lblScore.BackColor = SystemColors.WindowFrame;
         lblScore.ForeColor = Color.White;
-        lblScore.Location = new Point(892, 20);
+        lblScore.Location = new Point(728, 51);
         lblScore.Name = "lblScore";
-        lblScore.Size = new Size(93, 23);
+        lblScore.Size = new Size(223, 60);
         lblScore.TabIndex = 1;
         lblScore.Text = "Score:0";
         // 
         // Form1
         // 
-        AutoScaleDimensions = new SizeF(14F, 23F);
+        AutoScaleDimensions = new SizeF(32F, 59F);
         AutoScaleMode = AutoScaleMode.Font;
         BackgroundImageLayout = ImageLayout.Stretch;
-        ClientSize = new Size(1008, 729);
+        ClientSize = new Size(992, 680);
         Controls.Add(lblScore);
         Controls.Add(btnRestart);
         Font = new Font("Showcard Gothic", 14.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
