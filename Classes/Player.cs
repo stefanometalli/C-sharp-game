@@ -54,19 +54,19 @@ class Player : Component
     {
         velocity = Vector2.Zero;
 
-        if (Keyboard.IsKeyDown(Keys.W))
+        if (Keyboard.IsKeyDown(Keys.W) || Keyboard.IsKeyDown(Keys.Up))
         {
             velocity += new Vector2(0, -1);
         }
-        if (Keyboard.IsKeyDown(Keys.A))
+        if (Keyboard.IsKeyDown(Keys.A) || Keyboard.IsKeyDown(Keys.Left))
         {
            velocity += new Vector2(-1, 0);
         }
-        if (Keyboard.IsKeyDown(Keys.S))
+        if (Keyboard.IsKeyDown(Keys.S) || Keyboard.IsKeyDown(Keys.Down))
         {
             velocity += new Vector2(0, 1);
         }
-        if (Keyboard.IsKeyDown(Keys.D))
+        if (Keyboard.IsKeyDown(Keys.D) || Keyboard.IsKeyDown(Keys.Right))
         {
             velocity += new Vector2(1, 0);
         }
